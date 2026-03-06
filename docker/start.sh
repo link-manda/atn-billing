@@ -1,4 +1,7 @@
 #!/bin/sh
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
 
 # Menunggu database siap (opsional, tapi disarankan)
 echo "Waiting for database connection..."
