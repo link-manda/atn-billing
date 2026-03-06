@@ -14,6 +14,10 @@ RUN npm ci
 COPY resources/ ./resources/
 COPY public/ ./public/
 
+# PERBAIKAN: Salin folder vendor dari stage Composer ke stage Node.js
+# Ini diperlukan karena Vite/Tailwind perlu membaca file CSS/Blade dari package Flux
+COPY --from=vendor /app/vendor/ ./vendor/
+
 # Batasi memori Node.js agar tidak melebihi RAM Free Tier (512MB)
 ENV NODE_OPTIONS="--max-old-space-size=400"
 RUN npm run build
