@@ -8,7 +8,8 @@ RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-d
 # 2. Build assets with Node
 FROM node:20-alpine AS frontend
 WORKDIR /app
-COPY package.json package-lock.json vite.config.js postcss.config.js tailwind.config.js ./
+# PERBAIKAN: Gunakan wildcard (*) untuk file konfigurasi agar tidak error jika file tidak ada atau berbeda ekstensi
+COPY package.json package-lock.json vite.config.js postcss.config.js* tailwind.config.* ./
 RUN npm ci
 COPY resources/ ./resources/
 COPY public/ ./public/
