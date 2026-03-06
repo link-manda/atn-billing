@@ -22,6 +22,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/invoices/{id}', fn ($id) => view('invoice-detail', compact('id')))->name('invoices.show');
     Route::get('/payments', fn () => view('payments'))->name('payments.index');
     Route::get('/licenses', fn () => view('licenses'))->name('licenses.index');
+    Route::get('/bank-accounts', fn () => view('bank-accounts'))->name('bank-accounts.index');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

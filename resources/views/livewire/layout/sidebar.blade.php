@@ -22,6 +22,7 @@
             <flux:sidebar.item icon="document-text" href="/invoices" :current="request()->routeIs('invoices.*')">Invoices</flux:sidebar.item>
             <flux:sidebar.item icon="credit-card" href="/payments" :current="request()->routeIs('payments.*')">Payments</flux:sidebar.item>
             <flux:sidebar.item icon="key" href="/licenses" :current="request()->routeIs('licenses.*')">Licenses</flux:sidebar.item>
+            <flux:sidebar.item icon="building-library" href="/bank-accounts" :current="request()->routeIs('bank-accounts.*')">Bank Accounts</flux:sidebar.item>
         </flux:sidebar.nav>
 
         <flux:sidebar.spacer />

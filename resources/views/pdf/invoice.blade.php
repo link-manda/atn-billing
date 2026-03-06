@@ -205,6 +205,36 @@
                             <td width="35%" class="text-gray">Method</td>
                             <td class="font-bold text-dark">Bank Transfer</td>
                         </tr>
+                        @php
+                            $bankAccounts = \App\Models\BankAccount::where('is_active', true)->where('is_default', true)->get();
+                            if ($bankAccounts->isEmpty()) {
+                                $bankAccounts = \App\Models\BankAccount::where('is_active', true)->get();
+                            }
+                        @endphp
+
+                        @forelse($bankAccounts as $bank)
+                        <tr>
+                            <td class="text-gray">Bank Name</td>
+                            <td class="font-bold text-dark">{{ $bank->bank_name }}{{ $bank->branch ? ' (' . $bank->branch . ')' : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-gray">Account No.</td>
+                            <td class="font-bold text-dark text-lg" style="letter-spacing: 1px;">{{ $bank->account_number }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-gray">Account Name</td>
+                            <td class="font-bold text-dark">{{ $bank->account_name }}</td>
+                        </tr>
+                        @if($bank->swift_code)
+                        <tr>
+                            <td class="text-gray">SWIFT Code</td>
+                            <td class="font-bold text-dark">{{ $bank->swift_code }}</td>
+                        </tr>
+                        @endif
+                        @if(!$loop->last)
+                        <tr><td colspan="2" style="padding:4px 0;"><div style="border-bottom: 1px dashed #cbd5e1;"></div></td></tr>
+                        @endif
+                        @empty
                         <tr>
                             <td class="text-gray">Bank Name</td>
                             <td class="font-bold text-dark">Bank Central Asia (BCA)</td>
@@ -217,6 +247,7 @@
                             <td class="text-gray">Account Name</td>
                             <td class="font-bold text-dark">PT Andhira Teknologi Nusantara</td>
                         </tr>
+                        @endforelse
                         <tr>
                             <td class="text-gray" style="padding-top: 8px;">Reference</td>
                             <td class="font-bold" style="padding-top: 8px; color: #1e3a8a;">{{ $invoice->invoice_number }}</td>

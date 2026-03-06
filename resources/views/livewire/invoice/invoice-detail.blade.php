@@ -199,14 +199,42 @@
                             <span class="text-zinc-500 dark:text-zinc-400">Method</span>
                             <span class="font-medium text-zinc-800 dark:text-zinc-200">Bank Transfer</span>
 
-                            <span class="text-zinc-500 dark:text-zinc-400">Bank</span>
-                            <span class="font-medium text-zinc-800 dark:text-zinc-200">Bank Central Asia (BCA)</span>
+                            @php
+                                $bankAccounts = \App\Models\BankAccount::where('is_active', true)->where('is_default', true)->get();
+                                if ($bankAccounts->isEmpty()) {
+                                    $bankAccounts = \App\Models\BankAccount::where('is_active', true)->get();
+                                }
+                            @endphp
 
-                            <span class="text-zinc-500 dark:text-zinc-400">Account Number</span>
-                            <span class="font-bold text-zinc-900 dark:text-white tracking-widest">1234567890</span>
+                            @forelse($bankAccounts as $bank)
+                                <div class="col-span-2 my-1 border-t border-blue-200 dark:border-blue-800/50"></div>
 
-                            <span class="text-zinc-500 dark:text-zinc-400">Account Name</span>
-                            <span class="font-medium text-zinc-800 dark:text-zinc-200">PT Andhira Teknologi Nusantara</span>
+                                <span class="text-zinc-500 dark:text-zinc-400">Bank</span>
+                                <span class="font-medium text-zinc-800 dark:text-zinc-200">{{ $bank->bank_name }}{{ $bank->branch ? ' (' . $bank->branch . ')' : '' }}</span>
+
+                                <span class="text-zinc-500 dark:text-zinc-400">Account Number</span>
+                                <span class="font-bold text-zinc-900 dark:text-white tracking-widest">{{ $bank->account_number }}</span>
+
+                                <span class="text-zinc-500 dark:text-zinc-400">Account Name</span>
+                                <span class="font-medium text-zinc-800 dark:text-zinc-200">{{ $bank->account_name }}</span>
+
+                                @if($bank->swift_code)
+                                    <span class="text-zinc-500 dark:text-zinc-400">SWIFT Code</span>
+                                    <span class="font-medium text-zinc-800 dark:text-zinc-200">{{ $bank->swift_code }}</span>
+                                @endif
+                            @empty
+                                <div class="col-span-2 my-1 border-t border-blue-200 dark:border-blue-800/50"></div>
+                                <span class="text-zinc-500 dark:text-zinc-400">Bank</span>
+                                <span class="font-medium text-zinc-800 dark:text-zinc-200">Bank Central Asia (BCA)</span>
+
+                                <span class="text-zinc-500 dark:text-zinc-400">Account Number</span>
+                                <span class="font-bold text-zinc-900 dark:text-white tracking-widest">1234567890</span>
+
+                                <span class="text-zinc-500 dark:text-zinc-400">Account Name</span>
+                                <span class="font-medium text-zinc-800 dark:text-zinc-200">PT Andhira Teknologi Nusantara</span>
+                            @endforelse
+
+                            <div class="col-span-2 my-1 border-t border-blue-200 dark:border-blue-800/50"></div>
 
                             <span class="text-zinc-500 dark:text-zinc-400">Reference</span>
                             <span class="font-bold text-blue-700 dark:text-blue-400">{{ $invoice->invoice_number }}</span>
