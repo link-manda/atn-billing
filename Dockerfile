@@ -8,11 +8,14 @@ RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-d
 # 2. Build assets with Node
 FROM node:20-alpine AS frontend
 WORKDIR /app
-# PERBAIKAN: Gunakan wildcard (*) untuk file konfigurasi agar tidak error jika file tidak ada atau berbeda ekstensi
+# Gunakan wildcard (*) untuk file konfigurasi agar tidak error jika file tidak ada atau berbeda ekstensi
 COPY package.json package-lock.json vite.config.js postcss.config.js* tailwind.config.* ./
 RUN npm ci
 COPY resources/ ./resources/
 COPY public/ ./public/
+
+# PERBAIKAN KRUSIAL (OOM Render): Batasi memori Node.js agar tidak melebihi RAM Free Tier (512MB)
+ENV NODE_OPTIONS="--max-old-space-size=400"
 RUN npm run build
 
 # 3. Final image
