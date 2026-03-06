@@ -264,7 +264,7 @@
                         <td class="text-right total-value">Rp {{ number_format($invoice->amount, 0, ',', '.') }}</td>
                     </tr>
                     <tr>
-                        <td class="total-label">Tax (0%)</td>
+                        <td class="total-label">Tax (11%)</td>
                         <td class="text-right total-value">Rp {{ number_format($invoice->tax ?? 0, 0, ',', '.') }}</td>
                     </tr>
                     <tr class="grand-total">
