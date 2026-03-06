@@ -1,0 +1,23 @@
+XHRPOST
+http://127.0.0.1:8000/livewire/update
+[HTTP/1.1 200 OK 2028ms]
+
+XHRPOST
+http://127.0.0.1:8000/livewire/update
+[HTTP/1.1 200 OK 1837ms]
+
+	
+POST
+	http://127.0.0.1:8000/livewire/update
+Status
+200
+OK
+VersionHTTP/1.1
+Transferred27.34 kB (26.17 kB size)
+Referrer Policystrict-origin-when-cross-origin
+DNS ResolutionSystem
+
+XHRPOST
+http://127.0.0.1:8000/livewire/update
+[HTTP/1.1 200 OK 1945ms]
+

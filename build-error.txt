@@ -1,0 +1,60 @@
+﻿
+> build
+> vite build
+
+[36mvite v7.3.1 [32mbuilding client environment for production...[36m[39m
+transforming...
+[32mΓ£ô[39m 1 modules transformed.
+node.exe : [31mΓ£ù[39m Build failed in 
+67ms
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" 
+"C:\Users\Manda\AppData\Roaming\ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified 
+   : ([31mΓ£ù[39m Build failed in 67ms:  
+  String) [], RemoteException
+    + FullyQualifiedErrorId : NativeComman 
+   dError
+ 
+[31merror during build:
+[31m[@tailwindcss/vite:generate:build] 
+Can't resolve 'tailwindcss' in 'D:\Software
+\xampp\htdocs\siprima-invoice\resources\css
+'[31m
+file: [36mD:/Software/xampp/htdocs/siprima
+-invoice/resources/css/app.css[31m
+    at finishWithoutResolve (D:\Software\xa
+mpp\htdocs\siprima-invoice\node_modules\enh
+anced-resolve\lib\Resolver.js:586:18)
+    at D:\Software\xampp\htdocs\siprima-inv
+oice\node_modules\enhanced-resolve\lib\Reso
+lver.js:678:14
+    at D:\Software\xampp\htdocs\siprima-inv
+oice\node_modules\enhanced-resolve\lib\Reso
+lver.js:739:5
+    at eval (eval at create (D:\Software\xa
+mpp\htdocs\siprima-invoice\node_modules\tap
+able\lib\HookCodeFactory.js:31:10), 
+<anonymous>:15:1)
+    at D:\Software\xampp\htdocs\siprima-inv
+oice\node_modules\enhanced-resolve\lib\Reso
+lver.js:739:5
+    at eval (eval at create (D:\Software\xa
+mpp\htdocs\siprima-invoice\node_modules\tap
+able\lib\HookCodeFactory.js:31:10), 
+<anonymous>:27:1)
+    at D:\Software\xampp\htdocs\siprima-inv
+oice\node_modules\enhanced-resolve\lib\Desc
+riptionFilePlugin.js:89:43
+    at D:\Software\xampp\htdocs\siprima-inv
+oice\node_modules\enhanced-resolve\lib\Reso
+lver.js:739:5
+    at eval (eval at create (D:\Software\xa
+mpp\htdocs\siprima-invoice\node_modules\tap
+able\lib\HookCodeFactory.js:31:10), 
+<anonymous>:15:1)
+    at D:\Software\xampp\htdocs\siprima-inv
+oice\node_modules\enhanced-resolve\lib\Reso
+lver.js:739:5[39m
