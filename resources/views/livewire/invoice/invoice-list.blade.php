@@ -121,12 +121,12 @@
             <div class="grid grid-cols-2 gap-4">
                 <flux:field>
                     <flux:label>Amount (Rp)</flux:label>
-                    <flux:input wire:model="amount" type="number" placeholder="0" />
+                    <flux:input wire:model="amount" type="text" inputmode="decimal" placeholder="0,00" />
                     <flux:error name="amount" />
                 </flux:field>
                 <flux:field>
                     <flux:label>Tax (Rp)</flux:label>
-                    <flux:input wire:model="tax" type="number" placeholder="0" />
+                    <flux:input wire:model="tax" type="text" inputmode="decimal" placeholder="0,00" />
                 </flux:field>
             </div>
 
