@@ -2,21 +2,16 @@
 FROM composer:2.7 AS vendor
 WORKDIR /app
 COPY composer.json composer.lock ./
-# Ignore platform reqs untuk mencegah error jika dev-machine (lokal) berbeda dengan container
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev --ignore-platform-reqs
+# PERBAIKAN: Tambahkan --no-scripts agar Composer tidak mencoba menjalankan 'artisan' yang belum dicopy
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev --ignore-platform-reqs --no-scripts
 
 # 2. Build assets with Node
 FROM node:20-alpine AS frontend
 WORKDIR /app
-# Gunakan wildcard (*) untuk file konfigurasi agar tidak error jika file tidak ada atau berbeda ekstensi
 COPY package.json package-lock.json vite.config.js postcss.config.js* tailwind.config.* ./
 RUN npm ci
 COPY resources/ ./resources/
 COPY public/ ./public/
-
-# PERBAIKAN: Salin folder vendor dari stage Composer ke stage Node.js
-# Ini diperlukan karena Vite/Tailwind perlu membaca file CSS/Blade dari package Flux
-COPY --from=vendor /app/vendor/ ./vendor/
 
 # Batasi memori Node.js agar tidak melebihi RAM Free Tier (512MB)
 ENV NODE_OPTIONS="--max-old-space-size=400"
@@ -55,8 +50,7 @@ COPY . .
 COPY --from=vendor /app/vendor/ ./vendor/
 COPY --from=frontend /app/public/build/ ./public/build/
 
-# PERBAIKAN: Set proper permissions untuk storage, cache, dan direktori temporary (CRUCIAL)
-# Kita membuat folder framework/testing dan framework/views jika belum ada agar tempnam() tidak error
+# Set proper permissions untuk storage, cache, dan direktori temporary
 RUN mkdir -p /var/www/html/storage/framework/cache \
     && mkdir -p /var/www/html/storage/framework/sessions \
     && mkdir -p /var/www/html/storage/framework/testing \
@@ -64,7 +58,6 @@ RUN mkdir -p /var/www/html/storage/framework/cache \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage \
     && chmod -R 775 /var/www/html/bootstrap/cache \
-    # Pastikan direktori temporary sistem bisa ditulisi oleh PHP
     && chmod 777 /tmp
 
 # Menyimpan lokasi temporary dir agar PHP menggunakannya dengan benar
@@ -74,8 +67,10 @@ ENV SYS_TEMP_DIR=/tmp
 COPY docker/start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
 
-# Optimize Laravel for Production (Uncommented & Active)
-RUN php artisan config:cache \
+# Optimize Laravel for Production
+# Kita tambahkan package:discover di sini karena sebelumnya kita skip (--no-scripts) di tahap composer
+RUN php artisan package:discover --ansi \
+    && php artisan config:cache \
     && php artisan route:cache \
     && php artisan view:cache
 
