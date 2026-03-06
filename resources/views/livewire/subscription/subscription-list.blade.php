@@ -107,7 +107,7 @@
 
             <flux:field>
                 <flux:label>Custom Price (Rp) <flux:badge size="sm" variant="outline">Required</flux:badge></flux:label>
-                <flux:input wire:model="price" type="number" placeholder="Custom subscription price" />
+                <flux:input wire:model="price" type="text" inputmode="decimal" placeholder="0,00" />
                 <flux:error name="price" />
             </flux:field>
 

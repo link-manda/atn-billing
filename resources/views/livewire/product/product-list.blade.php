@@ -96,7 +96,7 @@
 
             <flux:field>
                 <flux:label>Base Price (Rp)</flux:label>
-                <flux:input wire:model="base_price" type="number" placeholder="0" />
+                <flux:input wire:model="base_price" type="text" inputmode="decimal" placeholder="0,00" />
                 <flux:error name="base_price" />
             </flux:field>
 

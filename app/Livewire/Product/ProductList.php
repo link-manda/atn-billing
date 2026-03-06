@@ -47,13 +47,24 @@ class ProductList extends Component
         $this->product_name = $product->product_name;
         $this->product_code = $product->product_code;
         $this->description  = $product->description ?? '';
-        $this->base_price   = (string) $product->base_price;
+
+        // Format base_price back to Indonesian locale
+        $priceStr = number_format($product->base_price, 2, ',', '.');
+        // Remove trailing ,00 if it's a whole number for cleaner display
+        if (str_ends_with($priceStr, ',00')) {
+            $priceStr = substr($priceStr, 0, -3);
+        }
+        $this->base_price   = $priceStr;
+
         $this->status       = $product->status;
         $this->showModal = true;
     }
 
     public function save(ProductService $service): void
     {
+        // Sanitize base_price: '799.990,30' -> '799990.30'
+        $this->base_price = str_replace(['.', ','], ['', '.'], $this->base_price);
+
         $this->validate();
 
         $data = [

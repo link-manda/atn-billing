@@ -51,7 +51,15 @@ class SubscriptionList extends Component
         $this->editing_id   = $id;
         $this->clinic_id    = $sub->clinic_id;
         $this->product_id   = $sub->product_id;
-        $this->price        = (string) $sub->price;
+
+        // Format price back to Indonesian locale
+        $priceStr = number_format($sub->price, 2, ',', '.');
+        // Remove trailing ,00 if it's a whole number for cleaner display
+        if (str_ends_with($priceStr, ',00')) {
+            $priceStr = substr($priceStr, 0, -3);
+        }
+        $this->price        = $priceStr;
+
         $this->billing_cycle= $sub->billing_cycle;
         $this->start_date   = $sub->start_date;
         $this->end_date     = $sub->end_date ?? '';
@@ -61,6 +69,9 @@ class SubscriptionList extends Component
 
     public function save(SubscriptionService $service): void
     {
+        // Sanitize price: '799.990,30' -> '799990.30'
+        $this->price = str_replace(['.', ','], ['', '.'], $this->price);
+
         $this->validate();
 
         $data = [
