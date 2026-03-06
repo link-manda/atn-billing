@@ -2,7 +2,7 @@
 FROM composer:2.7 AS vendor
 WORKDIR /app
 COPY composer.json composer.lock ./
-# PERBAIKAN: Tambahkan --no-scripts agar Composer tidak mencoba menjalankan 'artisan' yang belum dicopy
+# PERBAIKAN: Tambahkan --no-scripts agar artisan package:discover tidak dijalankan sebelum file artisan disalin
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev --ignore-platform-reqs --no-scripts
 
 # 2. Build assets with Node
@@ -50,7 +50,7 @@ COPY . .
 COPY --from=vendor /app/vendor/ ./vendor/
 COPY --from=frontend /app/public/build/ ./public/build/
 
-# Set proper permissions untuk storage, cache, dan direktori temporary
+# Set proper permissions (CRUCIAL untuk Laravel di Production)
 RUN mkdir -p /var/www/html/storage/framework/cache \
     && mkdir -p /var/www/html/storage/framework/sessions \
     && mkdir -p /var/www/html/storage/framework/testing \
@@ -60,7 +60,6 @@ RUN mkdir -p /var/www/html/storage/framework/cache \
     && chmod -R 775 /var/www/html/bootstrap/cache \
     && chmod 777 /tmp
 
-# Menyimpan lokasi temporary dir agar PHP menggunakannya dengan benar
 ENV SYS_TEMP_DIR=/tmp
 
 # Copy and setup start script
@@ -68,7 +67,7 @@ COPY docker/start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
 
 # Optimize Laravel for Production
-# Kita tambahkan package:discover di sini karena sebelumnya kita skip (--no-scripts) di tahap composer
+# Kita menjalankan package:discover secara eksplisit di sini, karena file artisan sudah ada
 RUN php artisan package:discover --ansi \
     && php artisan config:cache \
     && php artisan route:cache \
